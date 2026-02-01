@@ -1,0 +1,75 @@
+// about.js - About page specific scripts
+
+console.log('About page loaded');
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  // Animate values cards
+  const valueCards = document.querySelectorAll('.role-card');
+  
+  valueCards.forEach((card, index) => {
+    // Stagger animation
+    setTimeout(() => {
+      card.style.opacity = '1';
+      card.style.transform = 'translateY(0)';
+    }, index * 200);
+
+    // Initial state
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(30px)';
+    card.style.transition = 'all 0.6s ease';
+
+    // Hover effects
+    card.addEventListener('mouseenter', function() {
+      this.style.transform = 'translateY(-5px) scale(1.02)';
+      this.style.borderColor = '#c62828';
+    });
+
+    card.addEventListener('mouseleave', function() {
+      this.style.transform = 'translateY(0) scale(1)';
+      this.style.borderColor = '#e32b2b';
+    });
+  });
+
+  // Mission/Vision section animation
+  const missionSections = document.querySelectorAll('.mission');
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.2 });
+
+  missionSections.forEach(section => {
+    section.style.opacity = '0';
+    section.style.transform = 'translateY(20px)';
+    section.style.transition = 'all 0.7s ease';
+    observer.observe(section);
+  });
+
+  // Add visible class styles dynamically
+  const style = document.createElement('style');
+  style.textContent = `
+    .mission.visible {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Highlight effect on mission text
+  const missionText = document.querySelector('.mission-right p');
+  if (missionText) {
+    missionText.addEventListener('mouseenter', function() {
+      this.style.borderLeftWidth = '6px';
+      this.style.paddingLeft = '1.5rem';
+    });
+    missionText.addEventListener('mouseleave', function() {
+      this.style.borderLeftWidth = '4px';
+      this.style.paddingLeft = '1rem';
+    });
+  }
+
+});
